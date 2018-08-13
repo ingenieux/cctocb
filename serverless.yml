@@ -1,0 +1,47 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: cc2cb
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+
+provider:
+  name: aws
+  runtime: go1.x
+  timeout: 30
+  memorySize: 128
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "codebuild:ListProjects"
+        - "codebuild:StartBuild"
+      Resource: "*"
+
+package:
+ exclude:
+   - ./**
+ include:
+   - ./bin/**
+
+functions:
+  cctocb_handler:
+    handler: bin/cctocb_handler
+    events:
+      - cloudWatchEvent:
+          event:
+            source:
+              - "aws.codecommit"
+          detail-type:
+            - "CodeCommit Repository State Change"

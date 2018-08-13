@@ -1,0 +1,7 @@
+{
+  "name": "gif-thumbnailer",
+  "version": "0.0.1",
+  "devDependencies": {
+    "serverless": "^1.29.2"
+  }
+}
